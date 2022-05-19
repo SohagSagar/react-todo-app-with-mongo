@@ -17,16 +17,43 @@ const ManageToDo = () => {
         fetch(url)
             .then(res => res.json())
             .then(data => {
-              return setMyTodos(data)
+                return setMyTodos(data)
             })
     }, [myTodos]);
 
-    console.log(myTodos.length);
+    // update todo status
+
+    const handleUpdadeStrikeStatus = (id) => {
+        const updatedStrikeStatus = {strikeStatus:true};
+
+        const updateUrl = `http://localhost:5000/todo/${id}`;
+        fetch(updateUrl, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(updatedStrikeStatus)
+        })
+            .then(res => res.json())
+            .then(data => {
+
+                if (data.modifiedCount > 0) {
+                    console.log(data);
+                    toast.success("Task Completed !!", {
+                        position: toast.POSITION.TOP_RIGHT
+                    });
+                }
+            })
+
+        console.log(updatedStrikeStatus);
+        
+
+    }
 
     // delete todo task
     const handleDelete = (id) => {
         const deletePermission = window.confirm('Are you sure to delete?');
-        
+
         if (deletePermission) {
             const url = `http://localhost:5000/todo/${id}`;
             fetch(url, {
@@ -76,18 +103,28 @@ const ManageToDo = () => {
                     </thead>
                     <tbody>
 
-                    {
-                        myTodos.map((myTodo,index)=>
-                            <tr key={myTodo._id}>
-                                <th>{index+1}</th>
-                                <td>{myTodo?.TaskName}</td>
-                                <td>{myTodo?.description}</td>
-                                <td>{
-                                    <button onClick={() => handleDelete(myTodo?._id)} className='btn '>Delete</button>    
-                                }</td>
-                            </tr>
-                        )
-                    }
+                        {
+                            myTodos.map((myTodo, index) =>
+                                <tr key={myTodo._id}>
+                                    <th>{index + 1}</th>
+                                    <td>{myTodo?.TaskName}</td>
+                                    <td className='stroke-current'>{
+                                        myTodo.strikeStatus ? <s>{myTodo?.description}</s> :
+                                            <>{myTodo?.description}</>
+                                    }</td>
+                                    <td>{
+                                        <div>   
+                                            {
+                                                myTodo?.strikeStatus ? <button disabled className='btn btn-sm btn-success'>Done</button>  :
+                                                <button onClick={() => handleUpdadeStrikeStatus(myTodo?._id)} className='btn btn-sm btn-success text-white text-red-500'>Done</button>
+                                            }
+
+                                            <button onClick={() => handleDelete(myTodo?._id)} className='btn btn-sm ml-2 btn-error text-white'>Delete</button>
+                                        </div>
+                                    }</td>
+                                </tr>
+                            )
+                        }
 
                     </tbody>
                 </table>

@@ -11,7 +11,9 @@ const AddTaskModal = ({setModalStatus}) => {
 
     const onSubmit = data => {
         const todoTask ={
-            ...data,email:user.email
+            ...data,
+            email:user.email,
+            strikeStatus:false
         }
         console.log(todoTask);
         setModalStatus(false)
