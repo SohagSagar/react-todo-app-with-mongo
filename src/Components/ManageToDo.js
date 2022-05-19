@@ -13,7 +13,7 @@ const ManageToDo = () => {
 
     // load user todo data
     useEffect(() => {
-        const url = `http://localhost:5000/user-todo?email=${user.email}`;
+        const url = `https://arcane-mesa-47784.herokuapp.com/user-todo?email=${user.email}`;
         fetch(url)
             .then(res => res.json())
             .then(data => {
@@ -24,9 +24,9 @@ const ManageToDo = () => {
     // update todo status
 
     const handleUpdadeStrikeStatus = (id) => {
-        const updatedStrikeStatus = {strikeStatus:true};
+        const updatedStrikeStatus = { strikeStatus: true };
 
-        const updateUrl = `http://localhost:5000/todo/${id}`;
+        const updateUrl = `https://arcane-mesa-47784.herokuapp.com/todo/${id}`;
         fetch(updateUrl, {
             method: 'PUT',
             headers: {
@@ -46,7 +46,7 @@ const ManageToDo = () => {
             })
 
         console.log(updatedStrikeStatus);
-        
+
 
     }
 
@@ -55,7 +55,7 @@ const ManageToDo = () => {
         const deletePermission = window.confirm('Are you sure to delete?');
 
         if (deletePermission) {
-            const url = `http://localhost:5000/todo/${id}`;
+            const url = `https://arcane-mesa-47784.herokuapp.com/todo/${id}`;
             fetch(url, {
                 method: "DELETE"
             })
@@ -113,10 +113,10 @@ const ManageToDo = () => {
                                             <>{myTodo?.description}</>
                                     }</td>
                                     <td>{
-                                        <div>   
+                                        <div>
                                             {
-                                                myTodo?.strikeStatus ? <button disabled className='btn btn-sm btn-success'>Done</button>  :
-                                                <button onClick={() => handleUpdadeStrikeStatus(myTodo?._id)} className='btn btn-sm btn-success text-white text-red-500'>Done</button>
+                                                myTodo?.strikeStatus ? <button disabled className='btn btn-sm btn-success'>Done</button> :
+                                                    <button onClick={() => handleUpdadeStrikeStatus(myTodo?._id)} className='btn btn-sm btn-success text-white text-red-500'>Done</button>
                                             }
 
                                             <button onClick={() => handleDelete(myTodo?._id)} className='btn btn-sm ml-2 btn-error text-white'>Delete</button>

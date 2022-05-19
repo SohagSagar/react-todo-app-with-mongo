@@ -20,7 +20,7 @@ const AddTaskModal = ({setModalStatus}) => {
 
         //send data to server//
 
-        fetch('http://localhost:5000/add-todo', {
+        fetch('https://arcane-mesa-47784.herokuapp.com/add-todo', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
